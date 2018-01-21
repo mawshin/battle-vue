@@ -25,9 +25,21 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    .c-health--player {
-        font-weight: bold;
-        font-size: 18px;
+<style lang="scss" scoped>
+    .c-health {
+        @include cf;
+
+        .c-health--player {
+            float: left;
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .c-health--dragon {
+            float: right;
+            font-weight: bold;
+            font-size: 28px;
+        }
     }
 </style>
