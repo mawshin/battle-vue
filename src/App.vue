@@ -2,6 +2,7 @@
     <div id="app">
         <Health/>
         <GameOptions/>
+        <Comment/>
     </div>
 </template>
 
@@ -9,6 +10,7 @@
 /* eslint-disable */
 import Health from './components/Health';
 import GameOptions from './components/GameOptions';
+import Comment from './components/Commentary';
 
 
 export default {
@@ -16,6 +18,7 @@ export default {
     components: {
         GameOptions,
         Health,
+        Comment,
     }
 };
 
