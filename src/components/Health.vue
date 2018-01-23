@@ -2,11 +2,11 @@
     <div class="c-health">
         <div class="c-health--player">
             <div class="c-health--name">{{name}}</div>
-            <div class="c-health--bar">100%</div>
+            <div class="c-health--bar">100</div>
         </div>
         <div class="c-health--dragon">
             <div class="c-health--name">{{boss}}</div>
-            <div class="c-health--bar">100%</div>
+            <div class="c-health--bar">100</div>
         </div>
     </div>
 </template>
@@ -40,18 +40,18 @@ export default {
         .c-health--bar {
             position: relative;
             width: 100%;
-            border: 1px solid #272727;
-            color: white;
+            color: $dark-grey;
             padding: 0.3125rem 0.625rem;
+            margin-top: 2rem;
 
             &:before {
                 content: "";
-                width: var(--bar-width);
+                border: 1px solid $dark-grey;
                 width: var(--bar-width);
                 height: 100%;
                 background-color: #54b420;
                 position: absolute;
-                top: 0;
+                top: -100%;
                 left: 0;
                 z-index: -1;
             }
