@@ -12,13 +12,17 @@ import Health from './components/Health';
 import GameOptions from './components/GameOptions';
 import Comment from './components/Commentary';
 
-
 export default {
     name: 'App',
     components: {
         GameOptions,
         Health,
         Comment,
+    },
+    data: function() {
+        return {
+            
+        }
     }
 };
 
