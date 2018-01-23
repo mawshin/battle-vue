@@ -2,7 +2,7 @@
     <div id="app">
         <Health/>
         <GameOptions/>
-        <Comment/>
+        <Commentary/>
     </div>
 </template>
 
@@ -10,19 +10,15 @@
 /* eslint-disable */
 import Health from './components/Health';
 import GameOptions from './components/GameOptions';
-import Comment from './components/Commentary';
+import Commentary from './components/Commentary';
+
 
 export default {
     name: 'App',
     components: {
         GameOptions,
         Health,
-        Comment,
-    },
-    data: function() {
-        return {
-            
-        }
+        Commentary,
     }
 };
 

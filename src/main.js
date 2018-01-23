@@ -6,6 +6,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App';
 
+
 Vue.use(Vuex);
 
 /*Vue.use(VueRouter);
@@ -69,18 +70,7 @@ var getRandomInt = {
     } 
 }
 
-let store = new Vuex.Store({
-    state: {
-        damage: 0
-    },
-	mutations: {
-		increment (state) {
-			return state.damage
-		}
-	}
-})
-
-Vue.component('game-buttons', {
+/*Vue.component('game-buttons', {
 	template: `<div class="c-controller">
 		<div class="c-controller--btn c-controller--btn__attack" v-on:click="attackHit">{{attack}}</div>
 		<div class="c-controller--btn c-controller--btn__blast">{{blast}}</div>
@@ -96,39 +86,43 @@ Vue.component('game-buttons', {
 		    blast: 'Blast',
 		    heal: 'Heal',
 		    surrender: 'Give up',
-		    hitCount: 0,
 		}
     },
     methods: {
         attackHit: function (event) {
-            var value = getRandomInt.randomInt(5, 20);
-            /*console.log(hitCount);*/
-            store.state.damage = value;
+            var value = getRandomInt.randomInt(10, 35);
+            /*console.log(hitCount);* /
 
-            // store.damage = value;
-            console.log(store.state.damage);
+            // update comment list
+            store.state.damage.push(value);
+
+            store.state.bossLife = store.state.bossLife - value;
+            document.getElementsByClassName("jsBossLife").innerText = store.state.bossLife;
         }
     }
 })
 
 new Vue({
-    el: '#templateControl'
-})
+    el: '#templateControl',
+    components: { buttons: GameOptions },
+    template: '<game-buttons/>',
+})*/
 
-Vue.component('comments', {
+/*Vue.component('comments', {
 	template: `<ul class="c-comment--list">
-            <li>{{ this.$store.state.damage }}</li>
+            <li v-for="hit in this.$store.state.damage">{{ hit }}</li>
         </ul>`,
 	store,
 	data: function () {
 		return {
 			name: 'Player',
-			boss: 'Dragon',
-			damage: store.state.damage
+			boss: 'Dragon'
 		}
     }
 })
 
 new Vue({
-    el: '#templateComments'
-})
+    el: '#templateComments',
+    components: { comment: Commentary },
+    template: '<comments/>',
+})*/

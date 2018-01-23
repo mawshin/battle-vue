@@ -1,11 +1,12 @@
 <template>
     <div id="templateControl" class="c-controller">
-        <!-- <div class="c-controller--btn c-controller--btn__attack jsAttack" v-on:click="attackHit">{{attack}}</div>
-        <div class="c-controller--btn c-controller--btn__blast jsBlast">{{blast}}</div>
-        <div class="c-controller--btn c-controller--btn__heal jsHeal">{{heal}}</div>
-        <div class="c-controller--btn c-controller--btn__surrender jsRun">{{surrender}}</div> -->
-
-        <game-buttons></game-buttons>
+        <!-- <game-buttons></game-buttons> -->
+        <div class="c-controller">
+            <div class="c-controller--btn c-controller--btn__attack" v-on:click="attackHit">{{attack}}</div>
+            <div class="c-controller--btn c-controller--btn__blast">{{blast}}</div>
+            <div class="c-controller--btn c-controller--btn__heal">{{heal}}</div>
+            <div class="c-controller--btn c-controller--btn__surrender">{{surrender}}</div>
+        </div>
     </div>
 </template>
 
@@ -21,25 +22,28 @@ var getRandomInt = {
     } 
 }
 
+import store from '../store';
+
 export default {
     name: 'GameOptions',
-    props: ['hitCount'],
-    data() {
+    data: function () {
         return {
             attack: 'Attack',
             blast: 'Blast',
             heal: 'Heal',
             surrender: 'Give up',
-            hitCount: '',
         }
     },
     methods: {
         attackHit: function (event) {
-            var value = getRandomInt.randomInt(5, 20);
-            console.log(this.hitCount);
-            this.hitCount = value;
-            console.log(this.hitCount);
-            alert(value);
+            var value = getRandomInt.randomInt(10, 35);
+            /*console.log(hitCount);*/
+
+            // update comment list
+            store.state.damage.push(value);
+
+            store.state.bossLife = store.state.bossLife - value;
+            
         }
     }
 }
@@ -57,6 +61,11 @@ export default {
         font-weight: bold;
         padding: 0.3125rem 0;
         cursor: pointer;
+        margin-left: 0.625rem;
+
+        &:first-child {
+            margin-left: 0;
+        }
     }
 
     .c-controller--btn__attack {
