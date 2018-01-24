@@ -1,7 +1,8 @@
 <template>
     <div id="templateComments" class="c-comment">
         <ul class="c-comment--list">
-            <li v-for="hit in damage">{{ hit }}</li>
+            <li v-for="hit in playerHit">{{ hit }}</li>
+            <li v-for="bHit in bossHit">{{ bHit }}</li>
         </ul>
         <!-- <comments></comments> -->
     </div>
@@ -17,7 +18,8 @@ export default {
     store,
     data() {
         return {
-            damage: this.$store.state.damage
+            playerHit: this.$store.state.damage,
+            bossHit: this.$store.state.bossDamage
             /*name: 'Player',
             boss: 'Dragon',
             items: [

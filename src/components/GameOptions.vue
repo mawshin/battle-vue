@@ -19,7 +19,17 @@ var getRandomInt = {
         max = Math.floor(max);
 
         return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-    } 
+    }
+}
+
+var bossAttack = {
+    attackPower : function (min, max) {
+        var value = getRandomInt.randomInt(min, max);
+
+        store.state.bossDamage.push(value);
+
+        store.state.playerLife = store.state.playerLife - value;
+    }
 }
 
 import store from '../store';
@@ -36,14 +46,23 @@ export default {
     },
     methods: {
         attackHit: function (event) {
-            var value = getRandomInt.randomInt(10, 35);
+            var min = 10;
+            var max = 35;
+            var value = getRandomInt.randomInt(min, max);
             /*console.log(hitCount);*/
 
             // update comment list
             store.state.damage.push(value);
 
             store.state.bossLife = store.state.bossLife - value;
-            
+
+            store.state.currentTurn = "Boss";
+
+            setTimeout(function(){
+                bossAttack.attackPower(min, max);
+
+                store.state.currentTurn = "Player";
+            }, 3000);
         }
     }
 }
