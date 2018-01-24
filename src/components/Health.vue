@@ -1,5 +1,6 @@
 <template>
     <div class="c-health">
+        <p>{{turnCounter}}'s turn</p>
         <div class="c-health--player">
             <div class="c-health--name">{{name}}</div>
             <div class="c-health--bar" v-bind:style="{ '--bar-width': playerLifeLeft + '%' }">{{playerLifeLeft}}</div>
@@ -27,6 +28,9 @@ export default {
         }
     },
     computed: {
+        turnCounter () {
+            return this.$store.state.currentTurn;
+        },
         bossLifeLeft () {
             return this.$store.state.bossLife;
         },
