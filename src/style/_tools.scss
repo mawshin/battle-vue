@@ -4,6 +4,7 @@
 $health-width: 100%;
 
 $dark-grey: #272727;
+$red: #d51a1a;
 
 // Mixins
 @mixin cf {
@@ -34,17 +35,11 @@ $dark-grey: #272727;
     position: $position;
     z-index: layer-index($layer);
 }
+
 @mixin vertical-align($position: relative) {
     position: $position;
     top: 50%;
     transform: translateY(-50%);
-}
-
-@mixin white-circle-btn {
-    background-color: white;
-    border-radius: 50%;
-    cursor: pointer;
-    text-align: center;
 }
 
 // Functions

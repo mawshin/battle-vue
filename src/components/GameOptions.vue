@@ -1,10 +1,9 @@
 <template>
     <div id="templateControl">
-        <!-- <game-buttons></game-buttons> -->
         <div class="c-controller" v-bind:class="[waitingClass ? 'is-disabled' : '']">
             <div class="c-controller--btn c-controller--btn__attack" v-on:click="attackHit">{{attack}}</div>
-            <div class="c-controller--btn c-controller--btn__blast" v-bind:class="[activeClass]">{{blast}}</div>
-            <div class="c-controller--btn c-controller--btn__heal">{{heal}}</div>
+            <div class="c-controller--btn c-controller--btn__blast" v-on:click="blastHit" v-bind:class="[activeClass]">{{blast}}</div>
+            <div class="c-controller--btn c-controller--btn__heal " v-on:click="healPlayer" v-bind:class="[activeHealClass]">{{heal}}</div>
             <div class="c-controller--btn c-controller--btn__surrender">{{surrender}}</div>
         </div>
     </div>
@@ -22,17 +21,6 @@ var getRandomInt = {
     }
 }
 
-var bossAttack = {
-    attackPower : function (min, max) {
-        var value = getRandomInt.randomInt(min, max);
-
-        store.state.bossDamage.push(value);
-        store.state.damage.unshift({name: "Dragon", attack: value});
-
-        store.state.playerLife = store.state.playerLife - value;
-    }
-}
-
 import store from '../store';
 
 export default {
@@ -44,10 +32,8 @@ export default {
             heal: 'Heal',
             surrender: 'Give up',
             activeClass: '',
+            activeHealClass: '',
             waitingClass: false,
-            /*classObject: {
-                active: '',
-            }*/
         }
     },
     methods: {
@@ -56,17 +42,15 @@ export default {
             var max = 12;
             var value = getRandomInt.randomInt(min, max);
 
-            /*console.log(hitCount);*/
-
             // update comment list
             store.state.playerDamage.push(value);
-            store.state.damage.unshift({name: "Player", attack: value});
+            store.state.damage.unshift({name: "Player", action: "damages Dragon", attack: "-" + value});
 
             store.state.bossLife = store.state.bossLife - value;
 
             store.state.playerTurnCounter++;
 
-            if(store.state.playerTurnCounter === 2) {
+            if(store.state.playerTurnCounter === 3) {
                 this.$data.activeClass = 'is-active';
             }
 
@@ -74,15 +58,80 @@ export default {
 
             this.$data.waitingClass = true;
 
-            setTimeout(function(){
-                bossAttack.attackPower(min, max);
+            if(store.state.bossLife > 0) {
+                setTimeout(function(){
+                    this.bossAttack(min, max);
 
-                store.state.bossTurnCounter++;
+                    store.state.bossTurnCounter++;
 
-                store.state.currentTurn = "Player";
+                    store.state.currentTurn = "Player";
 
-                this.$data.waitingClass = false;
-            }.bind(this), 2000);
+                    this.$data.waitingClass = false;
+                }.bind(this), 1000);
+            }
+        },
+        blastHit: function (event) {
+            store.state.playerTurnCounter = 0;
+            this.$data.activeClass = '';
+
+            var min = 20;
+            var max = 40;
+            var value = getRandomInt.randomInt(min, max);
+
+            // update comment list
+            store.state.playerDamage.push(value);
+            store.state.damage.unshift({name: "Player", action: "blast attack Dragon", attack: "-" + value});
+
+            store.state.bossLife = store.state.bossLife - value;
+
+            store.state.playerTurnCounter = 0;
+
+            store.state.currentTurn = "Boss";
+
+            this.$data.waitingClass = true;
+
+            if(store.state.bossLife > 0) {
+                setTimeout(function(){
+                    this.bossAttack(min, max);
+
+                    store.state.bossTurnCounter++;
+
+                    store.state.currentTurn = "Player";
+
+                    this.$data.waitingClass = false;
+                }.bind(this), 1000);
+            }
+        },
+        bossAttack: function (event) {
+            var min = 5;
+            var max = 15;
+            var value = getRandomInt.randomInt(min, max);
+
+            store.state.bossDamage.push(value);
+            store.state.damage.unshift({name: "Dragon", action: "damages Player", attack: "-" + value});
+
+            store.state.playerLife = store.state.playerLife - value;
+
+            if(store.state.playerLife <= 35) {
+                this.activeHealClass = 'is-active';
+            }
+        },
+        healPlayer: function (event) {
+            var min = 10;
+            var max = 20;
+            var value = getRandomInt.randomInt(min, max);
+
+            store.state.playerLife = store.state.playerLife + value;
+
+            // update comment list
+            store.state.damage.unshift({name: "Player", action: "heals", attack: "+" + value});
+
+            this.activeHealClass = '';
+        }
+    },
+    watch: {
+        activeHealClass: function(val){
+            return store.state.playerLife;
         }
     }
 }
@@ -121,17 +170,28 @@ export default {
         background-color: #efefef;
         color: white;
         cursor: not-allowed;
+        pointer-events: none;
 
         &.is-active {
             background-color: #F9DC5C;
             color: $dark-grey;
             cursor: pointer;
+            pointer-events: initial;
         }
     }
 
     .c-controller--btn__heal {
-        background-color: #C2EABD;
-        color: $dark-grey;
+        background-color: #efefef;
+        color: white;
+        cursor: not-allowed;
+        pointer-events: none;
+
+        &.is-active {
+            background-color: #C2EABD;
+            color: $dark-grey;
+            cursor: pointer;
+            pointer-events: initial;
+        }
     }
 
     .c-controller--btn__surrender {

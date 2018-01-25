@@ -1,8 +1,18 @@
 <template>
     <div id="templateComments" class="c-comment">
+
+        <transition name="fade">
+            {{turnCounter}}
+            <div class="c-notify" v-if="show">
+                <div>
+                    <p>Blast enabled!</p>
+                </div>
+            </div>
+        </transition>
+
         <ul class="c-comment--list">
             <li v-for="key in attack">
-                {{ key.name }} attacks: <strong>{{ key.attack }} hits</strong>
+                {{ key.name }} {{ key.action }}: <strong>{{ key.attack }}</strong>
             </li>
             <!-- <li v-for="bHit in bossHit">Dragon attacks Player: <strong>{{ bHit }}</strong></li> -->
         </ul>
@@ -23,7 +33,9 @@ export default {
             attack: this.$store.state.damage,
             playerHit: this.$store.state.playerDamage,
             bossHit: this.$store.state.bossDamage,
-            current: '',
+            activeClass: '',
+            show: false,
+            showHeal: false,
             /*objectItems: { 
                 playerHit: this.$store.state.damage, 
                 bossHit: this.$store.state.bossDamage 
@@ -38,20 +50,13 @@ export default {
     },
     computed: {
         turnCounter () {
-            return this.$store.state.currentTurn;
-        }
-    },
-    watch: {
-        turnCounter (newCount, oldCount) {
-            console.log(newCount);
-            if(newCount === "Boss") {
-                return this.current = "Boss";
-            } else {
-                return this.current = "Player";
+            if(this.$store.state.playerTurnCounter === 3) {
+                this.show = true;
             }
-            
 
-            // return `${newCount}`;
+            setTimeout(function(){
+                this.$data.show = false;
+            }.bind(this), 2500);
         }
     }
 }
@@ -78,5 +83,22 @@ export default {
                 background-color: #dedede;
             }
         }
+    }
+
+    .c-notify {
+        color: $red;
+        font-weight: bold;
+        transition: opacity 0.5s;
+    }
+
+    .c-notify--heal {
+        color: #C2EABD;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>

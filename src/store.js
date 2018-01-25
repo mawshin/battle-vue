@@ -15,7 +15,6 @@ let store = new Vuex.Store({
         currentTurn: "Player",
         playerTurnCounter: 0,
         bossTurnCounter: 0,
-        waitingClass: false,
     }/*,
     mutations: {
         increment (state) {
