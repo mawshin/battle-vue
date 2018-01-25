@@ -1,8 +1,10 @@
 <template>
     <div id="templateComments" class="c-comment">
         <ul class="c-comment--list">
-            <li v-for="hit in playerHit">{{ hit }}</li>
-            <li v-for="bHit in bossHit">{{ bHit }}</li>
+            <li v-for="key in attack">
+                {{ key.name }} attacks: <strong>{{ key.attack }} hits</strong>
+            </li>
+            <!-- <li v-for="bHit in bossHit">Dragon attacks Player: <strong>{{ bHit }}</strong></li> -->
         </ul>
         <!-- <comments></comments> -->
     </div>
@@ -18,14 +20,38 @@ export default {
     store,
     data() {
         return {
-            playerHit: this.$store.state.damage,
-            bossHit: this.$store.state.bossDamage
+            attack: this.$store.state.damage,
+            playerHit: this.$store.state.playerDamage,
+            bossHit: this.$store.state.bossDamage,
+            current: '',
+            /*objectItems: { 
+                playerHit: this.$store.state.damage, 
+                bossHit: this.$store.state.bossDamage 
+            }*/
             /*name: 'Player',
             boss: 'Dragon',
             items: [
               { message: 'Foo' },
               { message: 'Bar' }
             ]*/
+        }
+    },
+    computed: {
+        turnCounter () {
+            return this.$store.state.currentTurn;
+        }
+    },
+    watch: {
+        turnCounter (newCount, oldCount) {
+            console.log(newCount);
+            if(newCount === "Boss") {
+                return this.current = "Boss";
+            } else {
+                return this.current = "Player";
+            }
+            
+
+            // return `${newCount}`;
         }
     }
 }
@@ -38,6 +64,8 @@ export default {
         list-style: none;
         padding-left: 0;
         margin: 0;
+        max-height: 200px;
+        overflow-y: scroll; 
 
         li {
             padding: 0.3125rem;

@@ -8,10 +8,14 @@ Vue.use(Vuex);
 let store = new Vuex.Store({
     state: {
         damage: [],
+        playerDamage: [],
+        bossDamage: [],
         bossLife: 100,
         playerLife: 100,
-        bossDamage: [],
         currentTurn: "Player",
+        playerTurnCounter: 0,
+        bossTurnCounter: 0,
+        waitingClass: false,
     }/*,
     mutations: {
         increment (state) {
