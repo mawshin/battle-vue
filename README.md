@@ -2,6 +2,10 @@
 
 > A Vue.js project
 
+Reference sites:
+- https://vuejs.org/v2/guide/
+- https://forum.vuejs.org/
+
 ## Build Setup
 
 ``` bash
